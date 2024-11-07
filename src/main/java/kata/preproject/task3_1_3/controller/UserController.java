@@ -95,8 +95,8 @@ public class UserController {
         return "/show_adm";
     }
 
-    @RequestMapping(value = {"/logout"}, method = RequestMethod.POST)
-    public String logoutDo(HttpServletRequest request, HttpServletResponse response) {
+    @PostMapping(value = "/logout")
+    public String logOutDo(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
         SecurityContextHolder.clearContext();
         session = request.getSession(false);
@@ -106,6 +106,6 @@ public class UserController {
         for (Cookie cookie : request.getCookies()) {
             cookie.setMaxAge(0);
         }
-        return "login";
+        return "redirect:/login";
     }
 }
