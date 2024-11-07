@@ -32,7 +32,7 @@ public class User implements UserDetails {
     private int age;
 
     @NotEmpty
-    @Size(min = 3, max = 20)
+    @Size(min = 3)
     @Column(name = "psw")
     private String password;
 

@@ -60,7 +60,7 @@ public class UserController {
             model.addAttribute("roles", roles);
             return "/new";
         }
-        userService.save(user);
+        userService.saveUser(user);
         return "redirect:/admin";
     }
 
@@ -85,7 +85,6 @@ public class UserController {
             model.addAttribute("roles", roles);
             return "/update";
         }
-        User tempUser = userService.getUserById(user.getId());  //костыль
         userService.updateUser(user);
         return "redirect:/admin";
     }

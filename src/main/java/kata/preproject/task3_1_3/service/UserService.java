@@ -1,5 +1,7 @@
 package kata.preproject.task3_1_3.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import kata.preproject.task3_1_3.dao.RoleRepository;
 import kata.preproject.task3_1_3.dao.UserRepository;
@@ -16,15 +18,30 @@ import java.util.List;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     @Transactional
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    @Transactional
+    public boolean saveUser(User user) {
+        User userFromDB = userRepository.findByUsername(user.getUsername());
+
+        if (userFromDB != null) {
+            return false;
+        }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return true;
     }
 
     @Transactional
@@ -64,6 +81,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void updateUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
