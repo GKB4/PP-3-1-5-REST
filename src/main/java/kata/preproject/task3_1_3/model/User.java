@@ -1,26 +1,46 @@
 package kata.preproject.task3_1_3.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "name")
-    private String name;
+
+    @NotEmpty
+    @Size(min = 3, max = 20)
+    @Column(name = "username", nullable = false, unique = true)
+    private String username;
+
+    @NotEmpty
+    @Size(min = 3, max = 20)
     @Column(name = "secondName")
     private String secondName;
+
+    @NotNull
+    @Min(value = 3)
     @Column(name = "age")
     private int age;
-    @ManyToMany(cascade = CascadeType.ALL, fetch= FetchType.LAZY)
+
+    @NotEmpty
+    @Size(min = 3, max = 20)
+    @Column(name = "psw")
+    private String password;
+
+    @NotEmpty
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="role_id"))
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> usersRoles = new HashSet<>();
 
     public User() {
@@ -35,11 +55,11 @@ public class User {
     }
 
     public String getName() {
-        return name;
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String username) {
+        this.username = username;
     }
 
     public String getSecondName() {
@@ -66,8 +86,47 @@ public class User {
         this.usersRoles = usersRoles;
     }
 
-    public void setRole (Role role) {
+    public void setRole(Role role) {
         this.usersRoles.add(role);
         role.getUsers().add(this);
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getUsersRoles();
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return getName();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
