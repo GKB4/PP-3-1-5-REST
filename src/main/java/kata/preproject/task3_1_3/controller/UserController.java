@@ -1,13 +1,11 @@
 package kata.preproject.task3_1_3.controller;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import kata.preproject.task3_1_3.model.Role;
 import kata.preproject.task3_1_3.model.User;
+import kata.preproject.task3_1_3.service.RoleService;
 import kata.preproject.task3_1_3.service.UserService;
+import kata.preproject.task3_1_3.service.UserServiceImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,9 +19,11 @@ import java.util.List;
 @RequestMapping
 public class UserController {
     private final UserService userService;
+    private final RoleService roleService;
 
-    public UserController(UserService userService) {
+    public UserController(UserServiceImpl userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping("/error")
@@ -34,7 +34,6 @@ public class UserController {
     @GetMapping(value = "/admin")
     public String printUsers(ModelMap model, Principal principal) {
         model.addAttribute("usersList", userService.getUsers());
-        System.out.println("Principal name --- " + principal.getName());
         model.addAttribute("principal", principal.getName());
         model.addAttribute("auth_roles", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         return "admin";
@@ -48,7 +47,7 @@ public class UserController {
 
     @GetMapping(value = "/admin/new")
     public String newUser(@ModelAttribute("user") User user, ModelMap model) {
-        List<Role> roles = userService.findAllRoles();
+        List<Role> roles = roleService.findAllRoles();
         model.addAttribute("roles", roles);
         return "/new";
     }
@@ -56,7 +55,7 @@ public class UserController {
     @PostMapping(value = "admin/newuser")
     public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
-            List<Role> roles = userService.findAllRoles();
+            List<Role> roles = roleService.findAllRoles();
             model.addAttribute("roles", roles);
             return "/new";
         }
@@ -72,7 +71,7 @@ public class UserController {
 
     @GetMapping(value = "/admin/update")
     public String viewUser(@RequestParam long id, ModelMap model) {
-        List<Role> roles = userService.findAllRoles();
+        List<Role> roles = roleService.findAllRoles();
         model.addAttribute("roles", roles);
         model.addAttribute("user", userService.getUserById(id));
         return "/update";
@@ -81,7 +80,7 @@ public class UserController {
     @PostMapping(value = "/admin/updateuser")
     public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
-            List<Role> roles = userService.findAllRoles();
+            List<Role> roles = roleService.findAllRoles();
             model.addAttribute("roles", roles);
             return "/update";
         }
@@ -95,17 +94,4 @@ public class UserController {
         return "/show_adm";
     }
 
-    @PostMapping(value = "/logout")
-    public String logOutDo(HttpServletRequest request, HttpServletResponse response) {
-        HttpSession session = request.getSession(false);
-        SecurityContextHolder.clearContext();
-        session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-        }
-        for (Cookie cookie : request.getCookies()) {
-            cookie.setMaxAge(0);
-        }
-        return "redirect:/login";
-    }
 }

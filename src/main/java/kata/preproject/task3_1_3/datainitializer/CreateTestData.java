@@ -1,17 +1,21 @@
-package kata.preproject.task3_1_3.testData;
+package kata.preproject.task3_1_3.datainitializer;
 
 import jakarta.transaction.Transactional;
 import kata.preproject.task3_1_3.model.Role;
 import kata.preproject.task3_1_3.model.User;
+import kata.preproject.task3_1_3.service.RoleService;
 import kata.preproject.task3_1_3.service.UserService;
+import kata.preproject.task3_1_3.service.UserServiceImpl;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CreateTestData {
     public final UserService userService;
+    public final RoleService roleService;
 
-    public CreateTestData(UserService userService) {
+    public CreateTestData(UserServiceImpl userService, RoleService roleService) {
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @Transactional
@@ -22,8 +26,8 @@ public class CreateTestData {
         Role role2 = new Role();
         role2.setName("ROLE_ADMIN");
 
-        userService.save(role1);
-        userService.save(role2);
+        roleService.save(role1);
+        roleService.save(role2);
 
         User user1 = new User();
         user1.setName("Jack");

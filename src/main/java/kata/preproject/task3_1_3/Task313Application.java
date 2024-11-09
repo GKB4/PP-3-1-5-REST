@@ -1,6 +1,6 @@
 package kata.preproject.task3_1_3;
 
-import kata.preproject.task3_1_3.testData.CreateTestData;
+import kata.preproject.task3_1_3.datainitializer.CreateTestData;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
