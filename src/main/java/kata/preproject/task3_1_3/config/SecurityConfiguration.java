@@ -44,7 +44,6 @@ public class SecurityConfiguration {
                             @Override
                             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
                                 List<String> roles = authentication.getAuthorities().stream().map(x -> x.getAuthority()).toList();
-                                System.out.println(roles);
                                 if (roles.contains("ROLE_ADMIN")) {
                                     response.sendRedirect("/admin");
                                 } else if (roles.contains("ROLE_USER")) {
@@ -54,11 +53,7 @@ public class SecurityConfiguration {
                         })
                 )
                 .httpBasic(withDefaults())
-                .csrf(withDefaults())
-                .logout((logout) -> logout.permitAll()
-                        .clearAuthentication(true)
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login"));
+                .csrf(withDefaults());
         return http.build();
     }
 

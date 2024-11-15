@@ -5,9 +5,7 @@ import jakarta.validation.constraints.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -41,7 +39,7 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> usersRoles = new HashSet<>();
+    private List<Role> usersRoles = new ArrayList<>();
 
     public User() {
     }
@@ -78,11 +76,11 @@ public class User implements UserDetails {
         this.age = age;
     }
 
-    public Set<Role> getUsersRoles() {
+    public List<Role> getUsersRoles() {
         return usersRoles;
     }
 
-    public void setUsersRoles(Set<Role> usersRoles) {
+    public void setUsersRoles(List<Role> usersRoles) {
         this.usersRoles = usersRoles;
     }
 

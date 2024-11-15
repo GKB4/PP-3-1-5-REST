@@ -58,9 +58,9 @@ public class CreateTestData {
         user4.setPassword("123456");
         user4.setRole(role1);
 
-        userService.saveUser(user1);
-        userService.saveUser(user2);
-        userService.saveUser(user3);
-        userService.saveUser(user4);
+        userService.save(user3);
+        userService.save(user4);
+        userService.save(user1);
+        userService.save(user2);
     }
 }

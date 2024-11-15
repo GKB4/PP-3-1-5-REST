@@ -8,11 +8,12 @@
 <body>
 <h3> Add new user </h3>
 <form th:method="POST" th:action="@{/admin/newuser}" th:object="${user}" class="form">
+
     <div class="form-group">
         <label for="name">Name</label>
         <input type="text" th:field="*{name}" id="name" placeholder="Name"/>
         <ul>
-            <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error" />
+            <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error"/>
         </ul>
     </div>
     <br>
@@ -20,7 +21,7 @@
         <label for="secondName">Second Name</label>
         <input type="text" th:field="*{secondName}" id="secondName"/>
         <ul>
-            <li th:each="err : ${#fields.errors('secondName')}" th:text="${err}" class="error" />
+            <li th:each="err : ${#fields.errors('secondName')}" th:text="${err}" class="error"/>
         </ul>
     </div>
     <br>
@@ -28,7 +29,7 @@
         <label for="age">Age</label>
         <input type="number" th:field="*{age}" id="age"/>
         <ul>
-            <li th:each="err : ${#fields.errors('age')}" th:text="${err}" class="error" />
+            <li th:each="err : ${#fields.errors('age')}" th:text="${err}" class="error"/>
         </ul>
     </div>
     <br>
@@ -36,27 +37,19 @@
         <label for="psw">Password</label>
         <input type="password" th:field="*{password}" id="psw"/>
         <ul>
-            <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error" />
+            <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error"/>
         </ul>
     </div>
     <br>
     <div>
-       <label for="multiSelectElementsSelected">Roles</label>
-        <select id="multiSelectElementsSelected"
-                name="multiSelectElementsSelected"
-                multiple="multiple"
-                th:field="*{usersRoles}">
-
-            <option th:each="role,row : ${roles}"
-                    th:value="${role.getId()}"
-                    th:text="${role.getName()}"></option>
-        </select>
+        <th:block th:each="role: ${roles}">
+            <input type="checkbox" th:field="*{usersRoles}" th:checked="${true}"
+                   th:text="${role.name}" th:value="${role.id}" class="m-2"/>
+        </th:block>
         <ul>
-            <li th:each="err : ${#fields.errors('usersRoles')}" th:text="${err}" class="error" />
+            <li th:each="err : ${#fields.errors('usersRoles')}" th:text="${err}" class="error"/>
         </ul>
     </div>
-    <br>
-
     <br>
     <input type="submit" class="btn btn-success" value="Add User"/>
 </form>

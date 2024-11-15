@@ -19,8 +19,8 @@ Authentication Roles:
         <th>WhatToDo</th>
     </tr>
     <tr th:each="tempUsers:${usersList}">
-        <td th:utext="${tempUsers.getName()}">...</td>
-        <td th:utext="${tempUsers.getSecondName()}">...</td>
+        <td th:utext="${tempUsers.name}">...</td>
+        <td th:utext="${tempUsers.secondName}">...</td>
         <td>
             <a th:href="@{/admin/userid?id={id}(id=${tempUsers.getId()})}">
                 <button type="button"> Read</button>

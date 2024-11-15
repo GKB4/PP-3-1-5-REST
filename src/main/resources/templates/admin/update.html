@@ -9,16 +9,17 @@
 <h3>Update User information</h3>
 
 <form th:method="POST" th:action="@{/admin/updateuser}" th:object="${user}" class="form">
+
     <div>
         <label for="id">ID</label>
         <input type="text" th:field="*{id}" id="id" readonly/>
     </div>
     <br>
     <div>
-        <label for="name">Name</label>
-        <input type="text" th:field="*{name}" id="name" placeholder="Name"/>
+        <label for="username">Name</label>
+        <input type="text" th:field="*{name}" id="username" placeholder="Name"/>
         <ul>
-            <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error" />
+            <li th:each="err : ${#fields.errors('username')}" th:text="${err}" class="error"/>
         </ul>
     </div>
     <br>
@@ -26,7 +27,7 @@
         <label for="secondName">Second Name</label>
         <input type="text" th:field="*{secondName}" id="secondName"/>
         <ul>
-            <li th:each="err : ${#fields.errors('secondName')}" th:text="${err}" class="error" />
+            <li th:each="err : ${#fields.errors('secondName')}" th:text="${err}" class="error"/>
         </ul>
     </div>
     <br>
@@ -34,32 +35,37 @@
         <label for="age">Age</label>
         <input type="number" th:field="*{age}" id="age"/>
         <ul>
-            <li th:each="err : ${#fields.errors('age')}" th:text="${err}" class="error" />
+            <li th:each="err : ${#fields.errors('age')}" th:text="${err}" class="error"/>
         </ul>
     </div>
     <br>
+
     <div>
         <label for="psw">Password</label>
-        <input type="password" th:field="*{password}" id="psw"/>
+        <input type="text" th:field="*{password}" id="psw"/>
         <ul>
-            <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error" />
+            <li th:each="err : ${#fields.errors('password')}" th:text="${err}" class="error"/>
         </ul>
     </div>
     <br>
-    <div>
-        <label for="multiSelectElementsSelected">Roles</label>
-        <select id="multiSelectElementsSelected"
-                name="multiSelectElementsSelected"
-                multiple="multiple"
-                th:field="*{usersRoles}">
 
+    <div>
+        <p>ROLE: <span th:text="${user.getUsersRoles()}"> ROLE </span></p>
+        <select id="usersRoles"
+                name="usersRoles"
+                multiple="multiple">
             <option th:each="role,row : ${roles}"
                     th:value="${role.getId()}"
-                    th:text="${role.getName()}"></option>
+                    th:text="${role.getName()}"
+                    th:field="*{usersRoles}">
+
+            </option>
         </select>
+
         <ul>
-            <li th:each="err : ${#fields.errors('usersRoles')}" th:text="${err}" class="error" />
+            <li th:each="err : ${#fields.errors('usersRoles')}" th:text="${err}" class="error"/>
         </ul>
+
     </div>
     <br>
 
