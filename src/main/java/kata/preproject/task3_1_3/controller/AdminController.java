@@ -76,6 +76,6 @@ public class AdminController {
     @GetMapping(value = "/userid")
     public String show(@RequestParam int id, ModelMap model) {
         model.addAttribute("user", userService.getUserById(id));
-        return "user/show_adm";
+        return "admin/show_adm";
     }
 }

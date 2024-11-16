@@ -40,6 +40,7 @@ public class SecurityConfiguration {
                 )
                 .formLogin((form) -> form //
                         .loginPage("/login").permitAll()
+                        .usernameParameter("email")
                         .successHandler(new AuthenticationSuccessHandler() {
                             @Override
                             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {

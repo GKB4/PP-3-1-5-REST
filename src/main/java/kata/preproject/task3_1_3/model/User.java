@@ -29,6 +29,10 @@ public class User implements UserDetails {
     @Column(name = "age")
     private int age;
 
+    @NotNull
+    @Column(name = "email")
+    private String email;
+
     @NotEmpty
     @Size(min = 3)
     @Column(name = "psw")
@@ -93,6 +97,15 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    @NotNull
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(@NotNull String email) {
+        this.email = email;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getUsersRoles();
@@ -127,4 +140,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
