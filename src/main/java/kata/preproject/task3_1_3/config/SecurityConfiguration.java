@@ -37,6 +37,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/user").hasRole("USER")
                         .anyRequest().authenticated()
+
                 )
                 .formLogin((form) -> form //
                         .loginPage("/login").permitAll()
@@ -55,6 +56,7 @@ public class SecurityConfiguration {
                 )
                 .httpBasic(withDefaults())
                 .csrf(withDefaults());
+
         return http.build();
     }
 

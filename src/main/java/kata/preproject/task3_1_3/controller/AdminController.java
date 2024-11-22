@@ -27,24 +27,20 @@ public class AdminController {
     }
 
     @GetMapping(value = "")
-    public String printUsers(ModelMap model, Principal principal) {
+    public String printUsers(@ModelAttribute("user") User user, ModelMap model, Principal principal) {
         model.addAttribute("usersList", userService.getUsers());
-        model.addAttribute("principal", principal.getName());
-        model.addAttribute("auth_roles", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        return "admin/index";
-    }
-
-    @GetMapping(value = "/new")
-    public String newUser(@ModelAttribute("user") User user, ModelMap model) {
+        model.addAttribute("user", user);
         model.addAttribute("roles", roleService.findAllRoles());
-        return "admin/new";
+        model.addAttribute("principalmail", userService.getUser(principal.getName()).getEmail());
+        model.addAttribute("auth_roles", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        model.addAttribute("principal", userService.getUser(principal.getName()));
+        return "admin/index";
     }
 
     @PostMapping(value = "/newuser")
     public String addUser(@Valid @ModelAttribute("user") User user, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
-            model.addAttribute("roles", roleService.findAllRoles());
-            return "admin/new";
+            return "redirect:/admin";
         }
         userService.save(user);
         return "redirect:/admin";
@@ -56,26 +52,12 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/update")
-    public String viewUser(@RequestParam long id, Model model) {
-        model.addAttribute("user", userService.getUserById(id));
-        model.addAttribute("roles", roleService.findAllRoles());
-        return "admin/update";
-    }
-
     @PostMapping(value = "/updateuser")
     public String updateUser(@Valid @ModelAttribute("user") User user, BindingResult result, ModelMap model) throws Exception {
-        if (result.hasErrors()) {
-            model.addAttribute("roles", roleService.findAllRoles());
-            return "admin/update";
+         if (result.hasErrors()) {
+            return "redirect:admin/";
         }
         userService.updateUser(user);
         return "redirect:/admin";
-    }
-
-    @GetMapping(value = "/userid")
-    public String show(@RequestParam int id, ModelMap model) {
-        model.addAttribute("user", userService.getUserById(id));
-        return "admin/show_adm";
     }
 }

@@ -3,6 +3,7 @@ package kata.preproject.task3_1_3.controller;
 import kata.preproject.task3_1_3.service.RoleService;
 import kata.preproject.task3_1_3.service.UserService;
 import kata.preproject.task3_1_3.service.UserServiceImpl;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,9 @@ public class UserController {
     @GetMapping(value = "")
     public String show(Principal principal, ModelMap model) {
         model.addAttribute("user", userService.getUser(principal.getName()));
+        model.addAttribute("principalmail", userService.getUser(principal.getName()).getEmail());
+        model.addAttribute("auth_roles", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        model.addAttribute("principal", userService.getUser(principal.getName()));
         return "user/show";
     }
 }

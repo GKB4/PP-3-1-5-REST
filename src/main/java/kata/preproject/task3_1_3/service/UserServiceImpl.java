@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
-    public void updateUser(User user) {
+    public User updateUser(User user) {
         if (Objects.equals(getUserById(user.getId()).getPassword(), user.getPassword())) {
             userDao.update(user);
         } else {
@@ -58,6 +58,7 @@ public class UserServiceImpl implements UserService {
             userDao.update(user);
         }
         userDao.update(user);
+        return user;
     }
 
     @Override

@@ -30,40 +30,22 @@ public class CreateTestData {
         roleService.save(role2);
 
         User user1 = new User();
-        user1.setName("Jack");
-        user1.setSecondName("Daniels");
-        user1.setAge(4);
-        user1.setEmail("jack@mail.ru");
+        user1.setName("Admin");
+        user1.setSecondName("Admin");
+        user1.setAge(39);
+        user1.setEmail("admin@mail.ru");
         user1.setPassword("123456");
+        user1.setRole(role2);
         user1.setRole(role1);
 
         User user2 = new User();
-        user2.setName("Erick");
-        user2.setSecondName("Cartman");
-        user2.setAge(8);
-        user2.setEmail("erick@mail.ru");
+        user2.setName("User");
+        user2.setSecondName("User");
+        user2.setAge(39);
+        user2.setEmail("user@mail.ru");
         user2.setPassword("123456");
-        user2.setRole(role2);
         user2.setRole(role1);
 
-        User user3 = new User();
-        user3.setName("Admin");
-        user3.setSecondName("Admin");
-        user3.setAge(39);
-        user3.setEmail("admin@mail.ru");
-        user3.setPassword("123456");
-        user3.setRole(role2);
-
-        User user4 = new User();
-        user4.setName("User");
-        user4.setSecondName("User");
-        user4.setAge(39);
-        user4.setEmail("user@mail.ru");
-        user4.setPassword("123456");
-        user4.setRole(role1);
-
-        userService.save(user3);
-        userService.save(user4);
         userService.save(user1);
         userService.save(user2);
     }
