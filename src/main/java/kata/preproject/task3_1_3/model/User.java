@@ -145,4 +145,17 @@ public class User implements UserDetails {
     public String toString() {
         return getName();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && age == user.age && Objects.equals(username, user.username) && Objects.equals(secondName, user.secondName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(usersRoles, user.usersRoles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, secondName, age, email, password, usersRoles);
+    }
 }
