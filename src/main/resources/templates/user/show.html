@@ -51,7 +51,7 @@
             <div id="v-pills-home" class="container tab-pane active"><br>
                 <h3>User information page</h3>
                 <h5>About user</h5>
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered" id="principalTable">
                     <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -60,29 +60,15 @@
                         <th scope="col">Age</th>
                         <th scope="col">Email</th>
                         <th scope="col">Role</th>
-
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td th:text="${principal.id}">...</td>
-                        <td th:text="${principal.name}">...</td>
-                        <td th:text="${principal.secondName}">...</td>
-                        <td th:text="${principal.age}">...</td>
-                        <td th:text="${principal.email}">...</td>
-                        <td th:text="${principal.usersRoles}">...</td>
-                    </tr>
-
                     </tbody>
                 </table>
             </div>
         </div>
 
-
     </div>
-
-
-
 
 </div>
 
@@ -97,6 +83,63 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
+<script>
+    //---------------Create Table for principal--------------
+    const principaltbody = document.getElementById("principalTable").querySelector("tbody");
+
+    async function whoIAm() {
+        const response = await fetch("/api/whoiam", {
+            method: "GET",
+            headers: {"Accept": "application/json"}
+        });
+        if (response.ok === true) {
+            const user = await response.json();
+            principaltbody.append(rowForPrincipal(user));
+            document.getElementById("principalmail").textContent = user.email;
+            document.getElementById("auth_roles").textContent = user.usersRoles[0].name;
+        }
+
+    }
+
+    whoIAm();
+
+    // создание строки для таблицы Principal
+    function rowForPrincipal(user) {
+
+        const tr = document.createElement("tr");
+        tr.setAttribute("data-rowid", user.id);
+
+        const idTd = document.createElement("td");
+        idTd.append(user.id);
+        tr.append(idTd);
+
+        const nameTd = document.createElement("td");
+        nameTd.append(user.username);
+        tr.append(nameTd);
+
+        const lastnameTd = document.createElement("td");
+        lastnameTd.append(user.secondName);
+        tr.append(lastnameTd);
+
+        const ageTd = document.createElement("td");
+        ageTd.append(user.age);
+        tr.append(ageTd);
+
+        const emailTd = document.createElement("td");
+        emailTd.append(user.email);
+        tr.append(emailTd);
+
+        const rolesTd = document.createElement("td");
+        for (let i = 0, l = user.usersRoles.length; i < l; i++) {
+            rolesTd.append(user.usersRoles[i].name);
+            rolesTd.append("\n");
+        }
+        tr.append(rolesTd);
+
+        return tr;
+    }
+
+</script>
 
 </body>
 </html>

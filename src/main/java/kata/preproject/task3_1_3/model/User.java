@@ -1,7 +1,10 @@
 package kata.preproject.task3_1_3.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,31 +17,31 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotEmpty
-    @Size(min = 3, max = 20)
+    @NotEmpty(message = "Name shouldn't be empty")
+    @Size(min = 3, max = 20, message = "Size of name should be from 3 to 20 letters")
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
-    @NotEmpty
-    @Size(min = 3, max = 20)
+    @NotEmpty(message = "Last name shouldn't be empty")
+    @Size(min = 3, max = 20, message = "Size of last name should be from 3 to 20 letters")
     @Column(name = "secondName")
     private String secondName;
 
     @NotNull
-    @Min(value = 3)
+    @Min(value = 3, message = "Age should be more then 3")
     @Column(name = "age")
     private int age;
 
-    @NotNull
+    @NotNull(message = "Email shouldn't be empty")
     @Column(name = "email")
     private String email;
 
-    @NotEmpty
-    @Size(min = 3)
+    @NotEmpty(message = "Password shouldn't be empty")
+    @Size(min = 3, message = "Password size should be more then 3 letters")
     @Column(name = "psw")
     private String password;
 
-    @NotEmpty
+    @NotEmpty(message = "Role shouldn't be empty")
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),

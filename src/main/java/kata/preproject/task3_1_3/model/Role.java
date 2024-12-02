@@ -1,6 +1,11 @@
 package kata.preproject.task3_1_3.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.ArrayList;
@@ -15,6 +20,7 @@ public class Role implements GrantedAuthority {
     private long id;
     @Column(unique = true, nullable = false)
     private String name;
+    @JsonIgnore
     @ManyToMany(mappedBy = "usersRoles")
     private List<User> users = new ArrayList<>();
 
