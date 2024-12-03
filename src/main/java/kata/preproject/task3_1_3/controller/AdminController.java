@@ -17,11 +17,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class RController {
+public class AdminController {
 
     private final UserService userService;
 
-    public RController(UserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 

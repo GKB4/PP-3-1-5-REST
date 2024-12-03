@@ -88,7 +88,7 @@
     const principaltbody = document.getElementById("principalTable").querySelector("tbody");
 
     async function whoIAm() {
-        const response = await fetch("/api/whoiam", {
+        const response = await fetch("/userapi/whoiam", {
             method: "GET",
             headers: {"Accept": "application/json"}
         });
